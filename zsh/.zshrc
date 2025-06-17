@@ -23,7 +23,7 @@ function git_branch_name()
 
 # Enable substitution in the prompt.
 setopt prompt_subst
-PS1='%B%{$fg[red]%}[%{$fg[yellow]%}%U%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$(git_branch_name)$%b '
+PS1='%B%{$fg[red]%}[%{$fg[yellow]%}$USER%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$(git_branch_name)$%b '
 
 # Basic auto/tab complete:
 autoload -U compinit

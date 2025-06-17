@@ -5,7 +5,7 @@ HISTFOLDER="$HOME/.cache/zsh"
 HISTFILE="$HISTFOLDER/history"
 
 mkdir -p "$HISTFOLDER"
-touch $HOME/.cache/zsh/history
+touch "$HISTFILE"
 
 # change permission and ownership
 chmod 600 "$HISTFILE"
