@@ -11,5 +11,5 @@ touch "$HISTFILE"
 chmod 600 "$HISTFILE"
 chown "$(whoami)" "$HISTFILE"
 
-stow tmux
-stow zsh
+stow tmux --target=$HOME
+stow zsh --targe=$HOME

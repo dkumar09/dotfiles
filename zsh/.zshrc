@@ -93,6 +93,7 @@ export NVM_DIR=~/.nvm
 
 # Add personal scripts to path
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
 eval "$(direnv hook zsh)"
 
