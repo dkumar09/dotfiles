@@ -12,4 +12,5 @@ chmod 600 "$HISTFILE"
 chown "$(whoami)" "$HISTFILE"
 
 stow tmux --target=$HOME
-stow zsh --targe=$HOME
+stow zsh --target=$HOME
+stow script --target=$HOME
