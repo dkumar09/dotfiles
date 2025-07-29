@@ -28,12 +28,12 @@
             :onchange ""
             :onclick "")
     (button :class "wifi" :onclick "sh -c 'nohup /usr/bin/iwgtk >/dev/null 2>&1 &'" wifi)
-    time
     (_battery :status {EWW_BATTERY.BAT0.status}
         :battery {EWW_BATTERY.BAT0.capacity}
         :charge "󰂄" :one "󰂂" :two "󰂁" :three "󰁿" :four "󰁽"
         :five "󰁼" :six "󰁻" :seven "󰁺")
-    ))
+    (label :text time)
+))
 
 
 (defwidget _battery [battery status one two three four five six seven charge]
