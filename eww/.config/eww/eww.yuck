@@ -1,0 +1,136 @@
+(defwidget bar []
+  (centerbox :orientation "h"
+    (workspaces)
+    (musicplayer)
+    (sidestuff)))
+
+(defwidget powerbtn []
+    (box  :orientation "horizontal"
+        (button :class "power-btn" :onclick "eww open --toggle power"  "⏻")))
+
+(defwidget power-menu []
+  (box :orientation "horizontal" :class "power-menu"
+    (button :onclick "systemctl poweroff" "⏻")
+    (button :onclick "systemctl reboot" "")
+    (button :onclick "loginctl lock-session" "")
+    (button :onclick "loginctl terminate-user $USER" "")
+    (button :onclick "systemctl suspend" "⏾")))
+
+(defwidget sidestuff []
+  (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
+    (metric :label { volume == 0 ? "" : ""}
+            :value volume
+            :onchange "wpctl set-volume @DEFAULT_AUDIO_SINK@ $(echo \"scale=2; {} / 100\" | bc)"
+            :onclick "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        )
+    (metric :label " "
+            :value {EWW_RAM.used_mem_perc}
+            :onchange ""
+            :onclick "")
+    (button :class "wifi" :onclick "sh -c 'nohup /usr/bin/iwgtk >/dev/null 2>&1 &'" wifi)
+    time
+    (_battery :status {EWW_BATTERY.BAT0.status}
+        :battery {EWW_BATTERY.BAT0.capacity}
+        :charge "󰂄" :one "󰂂" :two "󰂁" :three "󰁿" :four "󰁽"
+        :five "󰁼" :six "󰁻" :seven "󰁺")
+    ))
+
+
+(defwidget _battery [battery status one two three four five six seven charge]
+  (box :class "bat-box" :space-evenly false :spacing 8
+    (label :class "bat-text" :text {status == 'Charging' ? charge :
+      battery < 15 ? seven :
+        battery < 30 ? six :
+          battery < 45 ? five :
+            battery < 60 ? four :
+              battery < 75 ? three :
+                battery < 95 ? two : one})
+    (label :text "${battery}%")
+    ))
+
+(defwidget workspaces []
+    (box
+       :orientation "h"
+       :space-evenly false
+       :halign "start"
+       :spacing 10
+      (powerbtn)
+      (box :class "workspaces"
+           :orientation "h"
+           :space-evenly true
+           :halign "start"
+           :spacing 10
+        (button :onclick "hyprctl dispatch workspace 1" 1)
+        (button :onclick "hyprctl dispatch workspace 2" 2)
+        (button :onclick "hyprctl dispatch workspace 3" 3)
+        (button :onclick "hyprctl dispatch workspace 4" 4)
+        (button :onclick "hyprctl dispatch workspace 5" 5)
+        (button :onclick "hyprctl dispatch workspace 6" 6)
+        (button :onclick "hyprctl dispatch workspace 7" 7)
+        (button :onclick "hyprctl dispatch workspace 8" 8)
+        (button :onclick "hyprctl dispatch workspace 9" 9)
+        )))
+
+(defwidget musicplayer []
+  (box :class "music"
+       :orientation "h"
+       :space-evenly false
+       :halign "center"
+    (button
+       :onclick "playerctl play-pause"
+        {music != "" ? "🎵 ${music}" : ""})))
+
+
+(defwidget metric [label value onchange onclick]
+  (box :orientation "h"
+       :class "metric"
+       :space-evenly false
+    (button :class "label" :onclick onclick label)
+    (scale :min 0
+           :max 101
+           :active {onchange != ""}
+           :value value
+           :onchange onchange)))
+
+
+(defpoll wifi :interval "5s"
+  "scripts/getwifi")
+
+
+(deflisten music :initial ""
+  "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
+
+(defpoll volume :interval "1s"
+  "scripts/getvol")
+
+(defpoll time :interval "10s"
+  "date '+%H:%M %b %d, %Y'")
+
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry :x "0%"
+                      :y "0%"
+                      :width "100%"
+                      :height "10px"
+                      :anchor "top center")
+  :reserve (struts :side "top" :distance "4%")
+  :exclusive true
+  (bar))
+
+(defvar show_power false)
+(defwindow power
+  :monitor 0
+  :anchor "center"
+  :visible show_power
+  :stacking "fg"
+  :geometry (geometry 
+        :x "20%" 
+        :y "10%" 
+        :width "20%"
+        :height "10%"
+        :anchor "center")
+  :exclusive false
+  :focusable false
+  (power-menu))
+

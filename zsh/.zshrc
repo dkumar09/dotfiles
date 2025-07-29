@@ -9,6 +9,10 @@ SAVEHIST=10000
 HISTFILE=~/.cache/zsh/history
 # ~/.zshrc
 
+# Tools config
+[ -f ~/.config/completion.zsh ] && source ~/.config/completion.zsh
+[ -f ~/.config/key-binding.zsh ] && source ~/.config/key-binding.zsh
+
 # Find and set branch name var if in git repository.
 function git_branch_name()
 {
@@ -95,7 +99,5 @@ export NVM_DIR=~/.nvm
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
-eval "$(direnv hook zsh)"
+# eval "$(direnv hook zsh)"
 
-# Tools config
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

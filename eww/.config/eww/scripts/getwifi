@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Get station info from iwctl
+station_info=$(iwctl station wlan0 show 2>/dev/null)
+
+ssid=$(echo "$station_info" | grep 'Connected network' | sed 's/Connected network[[:space:]]*//' | xargs)
+
+if [ -z "$ssid" ] || [ "$ssid" = "none" ]; then
+  echo " 󰖪 Disconnected "
+else
+  echo "   $ssid "
+fi
+
