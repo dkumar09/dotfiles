@@ -32,7 +32,7 @@
         :battery {EWW_BATTERY.BAT0.capacity}
         :charge "󰂄" :one "󰂂" :two "󰂁" :three "󰁿" :four "󰁽"
         :five "󰁼" :six "󰁻" :seven "󰁺")
-    (label :text time)
+        (label :text time)
 ))
 
 

@@ -8,10 +8,8 @@ HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.cache/zsh/history
 # ~/.zshrc
-
-# Tools config
-[ -f ~/.config/completion.zsh ] && source ~/.config/completion.zsh
-[ -f ~/.config/key-binding.zsh ] && source ~/.config/key-binding.zsh
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 
 # Find and set branch name var if in git repository.
 function git_branch_name()
@@ -101,3 +99,14 @@ export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 
 # eval "$(direnv hook zsh)"
 
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# androdi studio config
+export ANDROID_HOME=$HOME/Android/Sdk
+export ANDROID_SDK_ROOT=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/psyphi/.local/bin:$PATH"
